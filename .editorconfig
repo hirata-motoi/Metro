@@ -1,0 +1,17 @@
+# http://editorconfig.org/
+
+root = true
+
+[*]
+end_of_line = lf
+charset = utf-8
+indent_style = space
+
+[*.{pl,pm,t}]
+indent_size = 4
+insert_final_newline = false
+trim_traling_whitespace = true
+
+[*.{html,jade,coffee,js,scss,css}]
+end_of_line = crlf
+indent_size = 2

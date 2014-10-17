@@ -1,0 +1,40 @@
+#!/bin/sh
+
+if [ "$1" == "" ]; then
+    echo "mandatory parameter"
+    exit 1
+fi
+
+export LANG=C
+
+name=$1
+capital_name=`echo $name | tr "a-z" "A-Z"`
+small_name=`echo $name | tr "A-Z" "a-z"`
+
+org_name="ProtoServer"
+org_capital_name=`echo $org_name | tr "A-Z" "a-z"`
+
+echo "start to setup "$name"..."
+
+for f in `find . -name script -prune -o -type f -print`
+do
+    sed -i -e "s/$org_name/$name/g" $f
+    sed -i -e "s/$org_capital_name/$capital_name/g" $f
+done
+sed -i -e "s/$org_name/$name/g" script/protoserver
+
+
+for dir in `find . -name $org_name`
+do
+    moved_dir=`echo $dir | sed -e "s/$org_name/$name/"`
+    mv $dir $moved_dir
+done
+
+for file in `find . -name $org_name.pm`
+do
+    moved_file=`echo $file | sed -e "s/$org_name/$name/"`
+    mv $file $moved_file
+done
+mv script/protoserver script/$small_name"-server"
+
+rm -rf .git

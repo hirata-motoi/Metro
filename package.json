@@ -1,0 +1,28 @@
+{
+  "name": "MetroServer",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-bower-task": "~0.3.4",
+    "grunt-contrib-jade": "~0.9.1",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-compass": "~0.7.0",
+    "grunt-contrib-coffee": "~0.8.0",
+    "load-grunt-config": "^0.7.1"
+  }
+}

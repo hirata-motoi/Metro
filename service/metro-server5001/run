@@ -1,0 +1,10 @@
+#!/bin/sh
+exec 2>&1
+
+PERL=/home/suenaga.masashi/perl5/perlbrew/perls/perl-5.16.3/bin/perl
+DAEMON=/home/suenaga.masashi/Metro/script/metro-server5001
+
+exec \
+  envdir ./env \
+  setuidgid suenaga.masashi \
+  $PERL $DAEMON

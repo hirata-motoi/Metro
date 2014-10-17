@@ -1,0 +1,58 @@
+{
+  "name": "MetroServer",
+  "version": "0.0.0",
+  "authors": [
+    "Masayuki Uehara <munky69rock@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.0.3",
+    "bootstrap": "~3.0.0",
+    "backbone": "~1.1.0",
+    "underscore": "~1.5.2",
+    "salvattore": "~1.0.4",
+    "nested": "*"
+  },
+  "exportsOverride": {
+    "jquery": {
+      "js": [
+        "**/*.js",
+        "**/*.map"
+      ],
+      "css": "**/*.css"
+    },
+    "bootstrap": {
+      "js": [
+        "**/*.js",
+        "**/*.map"
+      ],
+      "css": "**/*.css",
+      "fonts": "**/glyphicons-halflings-regular.*"
+    },
+    "backbone": {
+      "js": [
+        "**/backbone*.js",
+        "**/backbone*.map"
+      ]
+    },
+    "underscore": {
+      "js": [
+        "**/underscore*.js",
+        "**/underscore*.map"
+      ]
+    },
+    "salvattore": {
+      "js": "dist/*.js"
+    },
+    "nested": {
+      "js": "jquery.nested.js"
+    }
+  }
+}

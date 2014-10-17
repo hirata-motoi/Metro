@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title><: $title :></title>
+    <meta http-equiv="Content-Style-Type" content="text/css">
+    <meta http-equiv="Content-Script-Type" content="text/javascript">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <link href="<: uri_for('/static/bootstrap/css/bootstrap.css') :>" rel="stylesheet" type="text/css">
+    <link href="<: static_file('/static/css/main.css') :>" rel="stylesheet" type="text/css" media="screen">
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css" />
+
+    : block head -> {}
+
+    <script src="<: static_file('/static/jquery/js/jquery.min.js') :>"></script>
+    <script src="<: static_file('/static/bootstrap/js/bootstrap.min.js') :>"></script>
+    <script src="<: static_file('/static/underscore/js/underscore-min.js') :>"></script>
+    <script src="https://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+    <script src="<: static_file('/static/js/main.js') :>"></script>
+    : block javascript -> {}
+  </head>
+
+  <body style="background-color: #EEEEEE">
+
+    : if $no_header {
+    : }
+    : else {
+    : }
+
+    : if $container_fluid {
+    <div class="container-fluid">
+    : }
+    : else {
+    <div class="container content-body">
+    : }
+      : block content -> {}
+    </div>
+    
+    : if $no_footer {
+    : }
+    : else {
+    : }
+  </body>
+</html>
