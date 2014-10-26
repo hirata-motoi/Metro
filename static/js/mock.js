@@ -1,5 +1,7 @@
 (function(){
-
+	//G変数
+	var selectedItem; 
+	
     //画面初期化
     function setupItems() {
         var grid = $(".timeline").get(0),
@@ -7,13 +9,13 @@
             tmpl = _.template( $("#template-item" ).html() ),
             i;
 
-        for (i = 0; i < 10; i++) {
+        for (i = 0; i < 12; i++) {
             items.push( document.createElement("article") );
         }
 
         salvattore.append_elements(grid, items);
 
-        for (i = 0; i < 10; i++) {
+        for (i = 0; i < 12; i++) {
             items[i].outerHTML = tmpl({
                 "image_url": "http://amenama.on.arena.ne.jp/wordpress/wp-content/uploads/2014/08/cat.png"
             });
@@ -25,7 +27,7 @@
         $(".select-button").each(function(i, elem) {
             $(elem).click(function() {
                 toggle(this);
-                getSelectedItem();
+                getSelectedItem(this);
             });
             
         });
@@ -41,10 +43,12 @@
     }
     
     //選択したアイテムの値を取得する。
-    function　getSelectedItem() {
+    function　getSelectedItem(obj) {    	
+    		console.log(obj);
     	$(".item-list").find("selected").each(function(i, element) {
-    		var selectedItem = $(element).attr("selected");
-    		console.log(selectedItem)
+    		
+    		selectedItem = $(element).attr("selected");
+    		console.log(selectedItem);
         });   
     }
     
