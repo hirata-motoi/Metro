@@ -20,6 +20,7 @@ service/*/supervise
 service/*/env/*
 service/*/log/main
 service/*/log/supervise
+service/*/.xslate_cache/
 node_modules/
 bower_components/
 npm-debug.log

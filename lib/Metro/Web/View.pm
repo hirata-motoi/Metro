@@ -43,7 +43,8 @@ sub make_instance {
                 '[[', @_, ']]',
             );
         } ) : () ),
-        %$view_conf
+        %$view_conf,
+        'cache_dir' => '.xslate_cache',
     });
     return $view;
 }
