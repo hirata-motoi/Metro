@@ -1,5 +1,6 @@
 (function(){
 
+    //画面初期化
     function setupItems() {
         var grid = $(".timeline").get(0),
             items = [],
@@ -19,14 +20,18 @@
         }
     }
 
+    //画面アイテム選択
     function setupItemSelect() {
         $(".select-button").each(function(i, elem) {
             $(elem).click(function() {
                 toggle(this);
+                getSelectedItem();
             });
+            
         });
     }
 
+    //選択したアイテムの属性変更
     function toggle(that) {
         if ($(that).hasClass("selected")) {
             $(that).removeClass("selected");
@@ -34,6 +39,16 @@
             $(that).addClass("selected");
         }
     }
+    
+    //選択したアイテムの値を取得する。
+    function　getSelectedItem {
+    	$(".item-list").find("selected").each(function(i, element) {
+    		var selectedItem = $(element).attr("selected");
+    		console.log(selectedItem)
+        });   
+    }
+    
+    
 
     function setupItemsDetail() {
         $(".image").find("img").each(function(i, elem){

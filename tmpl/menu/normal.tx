@@ -92,8 +92,9 @@
 <div>
 
   <div id="item-list">
+  　　　<div id="selectedItem"></div>
     <button type="button" id="btn-style1" class="btn btn-primary">Submit</button>
-    <div class="timeline row" data-columns style="content: '4 .column.size-1of4';"></div>
+    	<div class="timeline row" data-columns style="content: '4 .column.size-1of4';"></div>
     <button type="button" id="btn-style2" class="btn btn-primary">Submit</button>
   </div>
   <div id="result" class="hidden">
