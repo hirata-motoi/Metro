@@ -45,15 +45,11 @@
     //選択したアイテムの値を取得する。
     function　getSelectedItem(obj) {    	
     		console.log(obj);
-    	$(".item-list").find("selected").each(function(i, element) {
-    		
-    		selectedItem = $(element).attr("selected");
-    		console.log(selectedItem);
-        });   
+    		if ($(obj).hasClass("selected")) {
+                console.log($(obj).attr("selected"));
+            }
     }
     
-    
-
     function setupItemsDetail() {
         $(".image").find("img").each(function(i, elem){
             $(elem).click(function() {
