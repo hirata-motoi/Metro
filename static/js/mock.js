@@ -41,7 +41,7 @@
     }
     
     //選択したアイテムの値を取得する。
-    function　getSelectedItem {
+    function　getSelectedItem() {
     	$(".item-list").find("selected").each(function(i, element) {
     		var selectedItem = $(element).attr("selected");
     		console.log(selectedItem)
