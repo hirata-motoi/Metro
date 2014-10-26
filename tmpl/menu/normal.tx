@@ -1,0 +1,159 @@
+<style type="text/css">
+  .item {
+    border: 1px solid #eee;
+    border-radius: 2px;
+    padding: 4px;
+    margin: 4px;
+    background-color: #FFFFFF
+  }
+  #btn-style1 {
+    background-color: #7FFFD4;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #btn-style2 {
+    background-color: #7FFFD4;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hidden {
+    display: none;
+  }
+  #result {
+    width: 96%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+  }
+  #box-pathway {
+    width: 100%;
+    float: left;
+  }
+  .station {
+    width: 25%;
+    float: left;
+  }
+  .detail {
+    width: 75%;
+    min-height: 40px;
+    float: right;
+  }
+  .selected {
+    background-color: red;
+  }
+  .select-button {
+    cursor: pointer;
+  }
+  .image {
+    cursor: pointer;
+  }
+  /* salvattore */
+  .timeline[data-columns]::before {
+    content: '4 .column.size-1of4';
+  }
+  .column {
+    float: left;
+  }
+  .size-1of4 {
+    width: 25%;
+  }
+  [data-columns]::before {
+    display: none;
+  }
+  .img-thumbnail {
+    padding: 0px 0px 0px 0px;
+    border: none;
+    border-radius: 4px;
+  }
+  .img-icon-small {
+    width: 10%;
+  }
+  .btn-top {
+    width: 49.5%;
+  }
+  .image {
+    position: relative;
+  }
+  .checkmark {
+    color:red;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    font-size: 30px;
+  }
+  .icon {
+    display: inline-block;
+  }
+</style>
+<script type="text/javascript">
+</script>
+<div>
+
+  <div id="item-list">
+    <button type="button" id="btn-style1" class="btn btn-primary">Submit</button>
+    <div class="timeline row" data-columns style="content: '4 .column.size-1of4';"></div>
+    <button type="button" id="btn-style2" class="btn btn-primary">Submit</button>
+  </div>
+  <div id="result" class="hidden">
+    <div>
+      <button type="button" class="btn btn-success back-button">back</button>
+    </div>
+    <div id="box-pathway"></div>
+  </div>
+
+</div>
+
+<div id="item-modal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">モーダルボックス</h3>
+      </div>
+      <div class="modal-body">
+        <img class="detail-image" src="" style="max-width: 60%;">
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">閉じる</button>
+        <button class="btn btn-primary">完了</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script id="template-item">
+  <div class="item">
+    <div class="image">
+      <img src="<%= image_url %>" class="img-thumbnail">
+    </div>
+    </a>
+    <div>
+      <span>どこそこ</span>
+      <span class="select-button" style="float: right;">GO</span>
+    </div>
+  </div>
+</script>
+<script id="template-checkmark">
+  <div class="checkmark">&#x2713;</div>
+</script>
+<script id="template-arrows">
+  <div>
+    <img src="<: static_file('/static/image/arrows-green.png') :>">
+    <span style="font-size: 12px;"><%= lineName %>(<%= requiredMinutes %>)</span>
+  </div>
+</script>
+<script id="template-point">
+  <div style="width: 100%; min-height: 40px;">
+    <div class="station"><%= pointName %></div>
+    <div class="detail""></div>
+  </div>
+</script>
+<script id="template-icon">
+  <div class="icon" style="text-align: center;">
+    <img class="pin-icon" src="<: static_file('/static/image/temple-icon.png') :>">
+    <div style="font-size: 16px; text-align: center"><%= placeName %></div>
+  </div>
+</script>
+

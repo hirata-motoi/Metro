@@ -11,4 +11,9 @@ sub test {
 	$self->output_response_json($c, { a => 111 }, undef);
 }
 
+sub mock {
+    my ($self, $c) = @_;
+    $self->output_response($c, "mock.tx", {}, undef);
+}
+
 1;
