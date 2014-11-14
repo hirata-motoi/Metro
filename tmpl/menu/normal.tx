@@ -93,12 +93,15 @@
 
   <div id="item-list">
     <button type="button" id="btn-style1" class="btn btn-primary">Submit</button>
-    <div class="timeline row" data-columns style="content: '4 .column.size-1of4';"></div>
+    <div class="timeline row" data-columns></div>
     <button type="button" id="btn-style2" class="btn btn-primary">Submit</button>
   </div>
   <div id="result" class="hidden">
     <div>
       <button type="button" class="btn btn-success back-button">back</button>
+    </div>
+    <div>
+      <button type="button" class="btn btn-success capture-button">capture</button>
     </div>
     <div id="box-pathway"></div>
   </div>
@@ -114,6 +117,23 @@
       </div>
       <div class="modal-body">
         <img class="detail-image" src="" style="max-width: 60%;">
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">閉じる</button>
+        <button class="btn btn-primary">完了</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="capture-modal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">capture</h3>
+      </div>
+      <div class="modal-body">
       </div>
       <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true">閉じる</button>

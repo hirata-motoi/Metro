@@ -40,6 +40,8 @@ requires 'Imager::ExifOrientation',             '0.07';
 requires 'Sub::Retry',                          '0.06';
 requires 'LWP::Protocol::https';
 requires 'URL::Encode';
+requires 'JSON::XS',                            '3.01';
+requires 'Math::Combinatorics',                 '0.09';
 
 on configure => sub {
     requires 'Module::Build', '0.38';

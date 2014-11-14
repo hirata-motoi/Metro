@@ -1,7 +1,7 @@
 #!/bin/sh
 exec 2>&1
 
-PERL=/home/hirata.motoi/perl5/perlbrew/perls/perl-5.16.3/bin/perl
+PERL=/home/hirata.motoi/perl5/perlbrew/perls/perl-Metro-5.16.3/bin/perl
 DAEMON=/home/hirata.motoi/Metro/script/metro-server
 
 exec \

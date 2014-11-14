@@ -14,8 +14,9 @@ my $params = {
 my $obj = Metro::API->new;
 my $res_hash = $obj->request($params);
 
-#for my $r (@$res_hash) {
-#	my @keys = keys %$r;
-#	print Dump \@keys;
-#}
-print Dump $res_hash;
+for my $r (@$res_hash) {
+    print Dump {
+        facility => $r->{'odpt:facility'},
+        connectingRailway => $r->{'odpt:connectingRailway'},
+    };
+}

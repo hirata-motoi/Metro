@@ -110,9 +110,27 @@
         });
     }
 
+    function setupCaptureButton() {
+        $(".capture-button").each(function(i, elem) {
+            $(elem).click(function() {
+                // canvasで画像を描画
+                html2canvas(document.getElementById("box-pathway"), {
+                    onrendered: function(canvas) {
+                        // modalの中身にcanvasをセット
+                        var container = $($("#capture-modal").find(".modal-body")[0]);
+                        console.log(container);
+                        container.append(canvas);
+                        $("#capture-modal").show("show");
+                    }
+                });
+            });
+        });
+    }
+
     setupSubmit();
     setupItems();
     setupItemsDetail();
     setupItemSelect();
     setupBackButton();
+    setupCaptureButton();
 })();

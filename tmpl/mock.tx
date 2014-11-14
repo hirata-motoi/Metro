@@ -105,6 +105,7 @@ body {
     $("#menu li").removeClass("ui-corner-top").addClass("ui-corner-left");
   </script>
   <script type="text/javascript" src="<: static_file('/static/salvattore/js/salvattore.js') :>"></script>
+  <script type="text/javascript" src="<: static_file('/static/js/html2canvas.js') :>"></script>
   <script type="text/javascript" src="<: static_file('/static/js/mock.js') :>"></script>
   <script type="text/javascript" src="<: static_file('/static/bootstrap/js/modal.js') :>"</script>
   <script type="text/javascript" src="<: static_file('/static/bootstrap/js/transition.js') :>"</script>
