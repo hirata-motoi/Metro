@@ -14,8 +14,6 @@ sub get {
 
     my @places = $c->req->param('p');
 
-    infof('places : %s', Dump \@places);
-
     my $ret = eval {
         Metro::Logic::Path->new->get(\@places);
     } || {};

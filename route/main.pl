@@ -1,0 +1,5 @@
++{
+    '/' => +{
+        controller => 'Index', action => 'show',
+    },
+}

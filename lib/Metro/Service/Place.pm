@@ -14,22 +14,20 @@ sub list {
     my $teng = $self->teng('METRO_R');
     my $tourist_spot_list = $self->model('TouristSpot')->list($teng);
 
-    infof(Dump $tourist_spot_list);
-
     # 画像のURLを作る
     for my $spot (@$tourist_spot_list) {
-        $spot->{image} = image_url($spot->{id});
+        $spot->{image} = image_url($spot->{id}, $spot->{extension});
     }
 
     # scoreを取得
-    return $tourist_spot_list;
+    return { result => $tourist_spot_list };
 }
 
 # そのうちクラスに切り出し
 sub image_url {
-    my ($id) = @_;
+    my ($id, $ext) = @_;
 
-    return sprintf('/img/place/%d', $id);
+    return sprintf('/static/image/place/%d.%s', $id, $ext);
 }
 
 1;

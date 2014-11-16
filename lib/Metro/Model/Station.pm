@@ -35,6 +35,18 @@ sub get_stations {
     return \@stations;
 }
 
+sub get_station_info {
+    my ($self, $teng, $stations) = @_;
+
+    my %station_info = ();
+
+    my @rows = $teng->search('station', { id => $stations });
+    for my $row (@rows) {
+        $station_info{$row->id} = $row->get_columns;
+    }
+    return \%station_info;
+}
+
 # このクラスでいいのか？ stationに順番をrailwayと順番を含める必要がある気がする
 sub get_stations_by_railway {
     my ($self, $teng, $railway) = @_;
@@ -46,7 +58,9 @@ sub get_stations_by_railway {
     my @rows = $teng->search('necessary_time', { railway => $railway });
     my @stations = ();
     for my $row (@rows) {
-        push @stations, $row->get_columns;
+        my $unit = $row->get_columns;
+        $unit->{title} = decode_utf8($unit->{title});
+        push @stations, $unit;
     }
 
     return \@stations;

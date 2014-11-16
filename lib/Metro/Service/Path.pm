@@ -9,6 +9,7 @@ use Log::Minimal;
 use YAML;
 use Math::Combinatorics;
 use JSON::XS;
+use Clone qw/clone/;
 
 sub get {
     my ($self, $places) = @_;
@@ -37,17 +38,18 @@ sub get {
     # stationsを作る
     my @stations = ();
     my $place_index = 0;
-    infof("shortest_route:%s", Dump $shortest_route);
     for my $r (@{$shortest_route->{route}}) {
         my $index = 0;
         my @route_stations = @{ decode_json($r->{route}) };
+        my $station_info = get_station_info($self, \@route_stations);
+
         if ($route_stations[0] != $r->{station_from}) {
             @route_stations = reverse @route_stations;
         }
         for my $station (@route_stations) {
             my %unit = (
                 id => $station,
-                name => "", # TODO 名前を引く
+                name => $station_info->{$station}{title},
             );
 
             if ($index == 0) {
@@ -79,11 +81,15 @@ sub get {
     # placesを作る
     my $spots = $self->model('TouristSpot')->get($teng, $places);
     my @places_detail = ();
-    for my $spot (@$places) {
-        push @places_detail, {
-            %{$spots->{$spot}},
-            image => image_url($spot),
-        };
+    for my $spot_list (@$place_station_info) {
+        my @unit = ();
+        for my $spot (@{$spot_list->{places}}) {
+            push @unit, {
+                %{$spots->{$spot}},
+                image => image_url($spot),
+            };
+        }
+        push @places_detail, \@unit;
     }
 
     # {
@@ -98,9 +104,11 @@ sub get {
     #     ],
     # }
     return {
-        places   => \@places_detail,
-        stations => \@stations,
-        paths    => \@paths
+        result => {
+            places   => \@places_detail,
+            stations => \@stations,
+            paths    => \@paths
+        }
     };
 
 }
@@ -108,8 +116,6 @@ sub get {
 # nearest_station_mapから2地点の組み合わせを全て取得
 sub station_conbinations {
     my ($station_map) = @_;
-
-    infof("station_map : %s", Dump $station_map);
 
     my %station_hash = ();
     for my $stations (values %$station_map) {
@@ -133,13 +139,17 @@ sub station_conbinations {
 sub place_order {
     my ($place_station_info) = @_;
 
-    # スタート地点は決めでindex 0
-    my $start = shift @$place_station_info;
+    my $place_station = clone $place_station_info;
+    infof(Dump $place_station);
 
-    my @place_orders = combine(scalar @$place_station_info, @$place_station_info);
+    # スタート地点は決めでindex 0
+    my $start =  shift @$place_station;
+
+    my @place_orders = permute(@$place_station);
     for (@place_orders) {
         unshift @$_, $start;
     }
+    infof('place_orders : %s', Dump \@place_orders);
     return \@place_orders;
 }
 
@@ -150,8 +160,6 @@ sub place_order {
 # }
 sub shortest_route {
     my ($place_orders, $route, $nearest_station_map) = @_;
-
-    infof('place_order : %s', Dump $place_orders);
 
     my @all_route = ();
 
@@ -173,8 +181,6 @@ sub shortest_route {
             for my $station (@$nearest_stations) {
                 for my $station2 (@$next_nearest_stations) {
                     my $r = $route->{$station}{$station2};
-
-                    infof("station1:%d station2:%d", $station, $station2);
 
                     if (!$shortest_route || $shortest_route->{necessary_time} > $r->{necessary_time}) {
                         $shortest_route = {
@@ -282,6 +288,15 @@ sub group_by_station {
     }
 
     return \@grouped_place_station_map;
+}
+
+sub get_station_info {
+    my ($self, $stations) = @_;
+    
+    my $teng = $self->teng('METRO_R');
+    my $station_info = $self->model('Station')->get_station_info($teng, $stations);
+
+    return $station_info;
 }
 
 1;

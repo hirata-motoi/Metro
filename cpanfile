@@ -42,6 +42,11 @@ requires 'LWP::Protocol::https';
 requires 'URL::Encode';
 requires 'JSON::XS',                            '3.01';
 requires 'Math::Combinatorics',                 '0.09';
+requires 'Mail::Sendmail',                      '0.79';
+requires 'Data::UUID',                          '1.219';
+requires 'Email::Sender',                       '1.300016';
+requires 'Email::MIME',                         '1.926';
+requires 'IO::All',                             '0.82';
 
 on configure => sub {
     requires 'Module::Build', '0.38';

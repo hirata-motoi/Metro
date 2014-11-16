@@ -6,14 +6,8 @@
     margin: 4px;
     background-color: #FFFFFF
   }
-  #btn-style1 {
-    background-color: #7FFFD4;
-    width: 50%;
-    margin-left: auto;
-    margin-right: auto;
-  }
   #btn-style2 {
-    background-color: #7FFFD4;
+    background-color: #007AB8;
     width: 50%;
     margin-left: auto;
     margin-right: auto;
@@ -30,6 +24,8 @@
   #box-pathway {
     width: 100%;
     float: left;
+    margin-top: 20px;
+    margin-left: 20px;
   }
   .station {
     width: 25%;
@@ -41,13 +37,14 @@
     float: right;
   }
   .selected {
-    background-color: red;
+    background-color: #F08080;
   }
-  .select-button {
+  .detail-button {
     cursor: pointer;
   }
   .image {
     cursor: pointer;
+    text-align: center;
   }
   /* salvattore */
   .timeline[data-columns]::before {
@@ -66,6 +63,7 @@
     padding: 0px 0px 0px 0px;
     border: none;
     border-radius: 4px;
+    height: 120px;
   }
   .img-icon-small {
     width: 10%;
@@ -86,37 +84,64 @@
   .icon {
     display: inline-block;
   }
+  .clear {
+    clear: both;
+    height: 15px;
+  }
 </style>
 <script type="text/javascript">
 </script>
-<div>
+<div style="margin-top: 20px;">
 
   <div id="item-list">
-    <button type="button" id="btn-style1" class="btn btn-primary">Submit</button>
-    <div class="timeline row" data-columns></div>
-    <button type="button" id="btn-style2" class="btn btn-primary">Submit</button>
+    <div class="btn-group" style="margin-left: 68%; margin-bottom: 10px;">
+      <button type="button" class="btn" style="width: 165px; text-align: left;"><span id="visibleValue">All</span></button>
+      <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+      <ul class="dropdown-menu" role="menu" hiddenTag="#hiddenValue" visibleTag="#visibleValue">
+        <li><a href="javascript:void(0)" value="All">All</a></li>
+        <li><a href="javascript:void(0)" value="Garden/Park/Museum">Garden/Park/Museum</a></li>
+        <li><a href="javascript:void(0)" value="Temple/Shrine">Temple/Shrine</a></li>
+        <li><a href="javascript:void(0)" value="City/Shopping">City/Shopping</a></li>
+        <li><a href="javascript:void(0)" value="Tower">Tower</a></li>
+        <li><a href="javascript:void(0)" value="Others">Others</a></li>
+      </ul>
+      <input type="hidden" id="hiddenValue" value="">
+
+      <a href="#" id="reset-button" style="position: absolute; bottom: 0px; margin-left: 8px;">reset</a>
+    </div>
+    <div class="timeline row" data-columns style="overflow: scroll; height: 600px;"></div>
+    <div style="text-align: center; margin-top: 10px;">
+      <button type="button" id="btn-style2" class="btn btn-primary">Submit</button>
+    </div>
   </div>
   <div id="result" class="hidden">
     <div>
-      <button type="button" class="btn btn-success back-button">back</button>
-    </div>
-    <div>
-      <button type="button" class="btn btn-success capture-button">capture</button>
+      <button type="button" class="btn btn-success back-button" style="display:inline-block; width: 40%;">back</button>
+      <button type="button" class="btn btn-success capture-button" style="display:inline-block; width: 40%;">capture</button>
     </div>
     <div id="box-pathway"></div>
   </div>
 
 </div>
 
-<div id="item-modal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="capture-modal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel">モーダルボックス</h3>
+        <span class="close" data-dismiss="modal" aria-hidden="true">×</span>
+        <h3 id="captureModalLabel">send capture</h3>
       </div>
       <div class="modal-body">
-        <img class="detail-image" src="" style="max-width: 60%;">
+        <div class="email-form">
+          <p>Please enter your email address.</p>
+          <form>
+            <ul style="list-style-type : none;">
+              <li style="width: 90%;"><label style="width: 100%;" for="email">email<input type="text" name="email" style="width:60%;" class="email-box"></label></li>
+              <li style="width: 90%;"><label style="width: 100%;" for="email-confirm">email(confirm)<input type="text" name="email-confirm" style="width:60%;" class="email-confirm-box"></label></li>
+            </ul>
+          <button id="email-send" type="button" class="btn btn-success">送信</button>
+        </div>
+        <div class="capture"></div>
       </div>
       <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true">閉じる</button>
@@ -126,32 +151,31 @@
   </div>
 </div>
 
-<div id="capture-modal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="item-modal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel">capture</h3>
+        <span class="close" data-dismiss="modal" aria-hidden="true">×</span>
+        <h3 id="myModalLabel"></h3>
       </div>
-      <div class="modal-body">
-      </div>
-      <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">閉じる</button>
-        <button class="btn btn-primary">完了</button>
+      <div class="modal-body" style="text-align:left;">
+        <img class="detail-image" src="" style="float:left; max-width:60%; margin-right:10px;">
+        <span class="detail-text" style="font-size:16px;"></span>
+        <div class="clear"></div>
       </div>
     </div>
   </div>
 </div>
 
 <script id="template-item">
-  <div class="item">
+  <div class="item" data-id="<%= id %>" data-category="<%= category %>">
     <div class="image">
       <img src="<%= image_url %>" class="img-thumbnail">
     </div>
     </a>
-    <div>
-      <span>どこそこ</span>
-      <span class="select-button" style="float: right;">GO</span>
+    <div style="font-size:14px; text-align:left;">
+      <span class="place-name" style="max-width:80%; display:inline-block;"><%= name %></span>
+      <span class="detail-button" style="float: right; margin-right:5px;"> > </span>
     </div>
   </div>
 </script>
@@ -159,21 +183,21 @@
   <div class="checkmark">&#x2713;</div>
 </script>
 <script id="template-arrows">
-  <div>
+  <div style="margin-bottom: 20px;">
     <img src="<: static_file('/static/image/arrows-green.png') :>">
-    <span style="font-size: 12px;"><%= lineName %>(<%= requiredMinutes %>)</span>
+    <img src="<%= iconUrl %>" style="width: 30px; height: 30px;"><span style="font-size: 12px;"><%= lineName %>(<%= requiredMinutes %>)</span>
   </div>
 </script>
 <script id="template-point">
-  <div style="width: 100%; min-height: 40px;">
-    <div class="station"><%= pointName %></div>
-    <div class="detail""></div>
+  <div style="width: 100%; min-height: 40px; margin-bottom: 20px;">
+    <div class="station" style="font-size: 16px;"><%= pointName %></div>
+    <div class="detail"></div>
   </div>
 </script>
 <script id="template-icon">
-  <div class="icon" style="text-align: center;">
+  <div class="icon" style="text-align: center; max-width: 70px;">
     <img class="pin-icon" src="<: static_file('/static/image/temple-icon.png') :>">
-    <div style="font-size: 16px; text-align: center"><%= placeName %></div>
+    <div style="font-size: 14px; text-align: center"><%= placeName %></div>
   </div>
 </script>
 

@@ -1,0 +1,14 @@
+package Metro::Web::C::Index;
+
+use strict;
+use warnings;
+use utf8;
+
+use parent qw/Metro::Web::C/;
+
+sub show {
+    my ($self, $c) = @_;
+    $self->output_response($c, "index.tx", {}, undef);
+}
+
+1;
