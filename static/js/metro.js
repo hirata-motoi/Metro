@@ -89,7 +89,7 @@
             }
 
             $(".selected-item-elem[data-id=" + $(item).attr("data-id") + "]").each(function(i, elem) {
-                $(elem).remove();
+                $(elem).parents(".selected-item-list-elem").remove();
             });
         } else {
             $(item).addClass("selected");
