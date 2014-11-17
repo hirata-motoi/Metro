@@ -1,0 +1,76 @@
+<style type="text/css">
+  .image-box {
+    text-align: center;
+  }
+</style>
+<script type="text/javascript">
+</script>
+<div style="text-align: left; margin-top: 20px;">
+  <h2 style="font-size: 30px; float:none;">Metro Browser操作マニュアル</h2>
+  <div class="text" style="font-size: 14px; margin-top:20px;">
+    Metro Browserは東京の観光地の選択と経路検索を同時に行うことができるサービスです。<br>
+    海外から日本へ観光に来た人々の中には、ガイドブックを見て行きたい場所を探しその後行き方を検索する、<br>という手間かかる方法をとっている方が少なからずいます。<br>
+    Metro Browserを使えばこの二つを同時にとても簡単に行うことができます。<br>
+    また、検索して経路をメールで携帯端末に送信したりプリントアウトすることができます。<br>
+    Metro Browserを使って素敵な東京観光を！
+
+  </div>
+
+  <h2 style="font-size: 30px; float:none;">機能</h2>
+
+  <h3 style="font-size: 14px; margin-top:20px;">観光地一覧</h3>
+  <div class="text">
+    トップページに東京メトロ沿線の主な観光地の一覧が表示されます。<br>
+    各cellの右下の > をクリックで詳細情報が表示されます。<br>
+    cellの画像をタップすることで、その観光地を行き先として選択することができます。<br>
+    再度クリックすることで選択を解除することが出来ます。<br>
+    選択された観光地は画面右のリストに表示されます。
+  </div>
+  <div>
+    <div class="image-box" style="display:inline-block; width:45%;">
+      <img style="width:100%;" src="/static/image/manual/detail-screenshot.png">
+    </div>
+    <div class="image-box" style="display:inline-block; width:45%; margin-left:20px;">
+      <img style="width:100%;" src="/static/image/manual/selected-screenshot.png">
+    </div>
+  </div>
+
+  <h3 style="font-size: 14px;">観光地のカテゴリ絞り込み</h3>
+  <div class="text">
+    トップページ右上のプルダウンで、観光地一覧のカテゴリでの絞り込みが可能です。<br>
+    カテゴリはGarden/Park/Museum、Temple/Shrine、City/Shopping、Tower、Othersの四つに加え、全てを含めるAllがあります。<br>
+  </div>
+  <div class="image-box">
+    <img style="width:60%;" src="/static/image/manual/category-screenshot.png">
+  </div>
+
+  <h3 style="font-size: 14px;">観光開始地点の選択</h3>
+  <div class="text">
+    トップページのcellの画像をクリックすることで選択された観光地は画面右にリストアップされます。<br>
+    リストの「start from here」リンクをクリックすることで、観光開始地点を選択します。<br>
+    ここで選択した開始地点を始点とし、他の観光地を巡るルートを提案します。
+  </div>
+  <div class="image-box">
+    <img style="width:60%; "src="/static/image/manual/startspot-screenshot.png">
+  </div>
+
+  <h3 style="font-size: 14px;">ルートの表示</h3>
+  <div class="text">
+    観光地の選択、開始地点の選択を終えると、「Submit」ボタンを押してルートの表示を行います。<br>
+    東京メトロ上での選択された全ての観光地を経由するルートが表示されます。<br>
+  </div>
+  <div class="image-box">
+    <img style="width:60%;" src="/static/image/manual/path-screenshot.png">
+  </div>
+
+  <h3 style="font-size: 14px;">ルートのメール送信</h3>
+  <div class="text">
+    表示された経路を画像としてメール送信することができます。<br>
+    「Capture」ボタンを押すとダイアログに経路とメールアドレス入力formが表示されます。<br>
+    メールアドレスを入力し「Send email」を押すと、PNGの添付ファイルとして経路が送信されます。
+  </div>
+  <div class="image-box">
+    <img style="width:60%;" src="/static/image/manual/capture-screenshot.png">
+  </div>
+
+</div>

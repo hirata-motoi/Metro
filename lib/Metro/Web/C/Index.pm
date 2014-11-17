@@ -11,4 +11,9 @@ sub show {
     $self->output_response($c, "index.tx", {}, undef);
 }
 
+sub manual {
+    my ($self, $c) = @_;
+    $self->output_response($c, "manual_parent.tx", {}, undef);
+}
+
 1;
