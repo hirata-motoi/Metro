@@ -147,8 +147,13 @@
   </div>
   <div id="result" class="hidden">
     <div style="text-align:center;">
-      <button type="button" class="btn btn-success back-button" style="display:inline-block; width: 40%;">back</button>
-      <button type="button" class="btn btn-success capture-button" style="display:inline-block; width: 40%;">capture</button>
+      <div style="display:inline-block; width:15%;">
+        <button type="button" class="btn btn-success back-button" style="display:inline-block; width: 100%;">back</button>
+      </div>
+      <div style="display:inline-block; width:80%; text-align:right;">
+        <button type="button" class="btn btn-success capture-button" style="display:inline-block; width: 20%;">capture</button>
+        <button id="print-trigger" type="button" class="btn btn-success" style="display:inline-block; width: 20%;">print</button>
+      </div>
     </div>
     <div id="box-pathway">
     </div>

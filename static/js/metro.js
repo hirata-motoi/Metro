@@ -409,6 +409,24 @@
         });
     }
 
+    function setupOpenPrintPage() {  
+        $('#print-trigger').click(function(){  
+            html2canvas(document.getElementById("box-pathway"), {
+                onrendered: function(canvas) {
+                    //var w = window.open($obj.attr('href'), "print", "width=" + $winWidth + ", height=" + $winHeight + ", top=85, left=150, scrollbars, resizable, locationbar, menubar, status, toolbar");
+                    var w = window.open("");
+                    var elem = $(w.document.createElement('div'));
+                    elem.attr("id", "canvas-container");
+                    elem.append(canvas);
+                    w.document.body.appendChild( canvas );
+            	    
+                    return false;  
+                }
+            });
+            return false;  
+        });  
+    };
+
     setupSubmit();
     setupBackButton();
     setupTouristSpots();
@@ -417,4 +435,5 @@
     setupGlobalTitle();
     setupSelectedItemDetail();
     setupStartFromHere();
+    setupOpenPrintPage();
 })();
