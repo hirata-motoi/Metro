@@ -65,10 +65,11 @@ sub get {
             if (@stations && $station == $stations[$#stations]->{id}) {
                 next;
             }
-
+            my @e = split /\./, $station_info->{$station}{facility};
+            infof(Dump \@e);
             my %unit = (
                 id => $station,
-                name => $station_info->{$station}{title},
+                name => $e[1],
             );
 
             if (!$is_walk_from_last_spot) {

@@ -39,7 +39,7 @@ sub send {
         'header' => [
             'From'    => encode('MIME-Header-ISO_2022_JP', $params->{from} || 'info@smart-travel-japan.com'),
             'To'      => encode('MIME-Header-ISO_2022_JP', $params->{to}),
-            'Subject' => encode('MIME-Header-ISO_2022_JP', 'From smart travel Japan'),
+            'Subject' => encode('MIME-Header-ISO_2022_JP', 'From Metro Browser'),
         ],
         'parts'  => [ @parts ],
     );
