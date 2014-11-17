@@ -142,6 +142,8 @@
             for (var i = 0; i < window.metro.placeList.length; i++) {
                 window.metro.placeList[i]["selected"] = false;
             }
+
+            $("#selected-item-list").empty();
         });
     }
 
