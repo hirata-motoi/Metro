@@ -22,10 +22,10 @@
     text-align: left;
   }
   #box-pathway {
-    width: 100%;
+    width: 80%;
     float: left;
     margin-top: 20px;
-    margin-left: 20px;
+    margin-left: 65px;
   }
   .station {
     width: 25%;
@@ -88,6 +88,12 @@
     clear: both;
     height: 15px;
   }
+  #loading {
+    display: none;
+    width: 100%;
+    margin-top: 100px;
+    text-align: center;
+  }
 </style>
 <script type="text/javascript">
 </script>
@@ -115,11 +121,13 @@
     </div>
   </div>
   <div id="result" class="hidden">
-    <div>
+    <div style="text-align:center;">
       <button type="button" class="btn btn-success back-button" style="display:inline-block; width: 40%;">back</button>
       <button type="button" class="btn btn-success capture-button" style="display:inline-block; width: 40%;">capture</button>
     </div>
-    <div id="box-pathway"></div>
+    <div id="box-pathway">
+    </div>
+    <div id="loading"><img src="/static/image/ajax-loader.gif"></div>
   </div>
 
 </div>
@@ -132,20 +140,25 @@
         <h3 id="captureModalLabel">send capture</h3>
       </div>
       <div class="modal-body">
-        <div class="email-form">
-          <p>Please enter your email address.</p>
+        <div class="email-form" style="text-align:center;">
+          <p style="font-size:16px; width:70%; margin-left:15%; margin-bottom:20px;">You can send the capture by email. <br>Please enter your email address to send capture.</p>
           <form>
             <ul style="list-style-type : none;">
-              <li style="width: 90%;"><label style="width: 100%;" for="email">email<input type="text" name="email" style="width:60%;" class="email-box"></label></li>
-              <li style="width: 90%;"><label style="width: 100%;" for="email-confirm">email(confirm)<input type="text" name="email-confirm" style="width:60%;" class="email-confirm-box"></label></li>
+              <li style="width: 90%; display:inline-block;">
+                <div style="display:inline-block; width:100px; text-align:right; margin-right:20px;">email</div>
+                <input type="text" name="email" style="width:60%; display:inline-block;" class="email-box">
+              </li>
+              <li style="width: 90%; display:inline-block; margin-top:10px; margin-bottom:10px;">
+                <div style="display:inline-block; width:100px; text-align:right; margin-right:20px;">email(confirm)</div>
+                <input type="text" name="email-confirm" style="width:60%; display:inline-block;" class="email-confirm-box">
+              </li>
             </ul>
-          <button id="email-send" type="button" class="btn btn-success">送信</button>
+          <button id="email-send" type="button" class="btn btn-success">Send email</button>
         </div>
-        <div class="capture"></div>
+        <div class="capture" style="margin-top:70px;"></div>
       </div>
       <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">閉じる</button>
-        <button class="btn btn-primary">完了</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
       </div>
     </div>
   </div>
@@ -184,20 +197,25 @@
 </script>
 <script id="template-arrows">
   <div style="margin-bottom: 20px;">
-    <img src="<: static_file('/static/image/arrows-green.png') :>">
-    <img src="<%= iconUrl %>" style="width: 30px; height: 30px;"><span style="font-size: 12px;"><%= lineName %>(<%= requiredMinutes %>)</span>
+    <div style="display:inline-block; margin-left:30px;">
+      <img src="<: static_file('/static/image/arrows-green.png') :>">
+    </div>
+    <div style="display:inline-block;">
+      <img src="<%= iconUrl %>" style="width: 30px; height: 30px;">
+      <span style="font-size: 14px;"><%= lineName %><%= requiredMinutes %></span>
+    </div>
   </div>
 </script>
 <script id="template-point">
-  <div style="width: 100%; min-height: 40px; margin-bottom: 20px;">
-    <div class="station" style="font-size: 16px;"><%= pointName %></div>
+  <div style="width: 100%; min-height: 90px; margin-bottom: 20px; background-color:darkgray;">
+    <div class="station" style="font-size:16px; margin-top:35px; margin-left:10px; width:110px;"><%= pointName %></div>
     <div class="detail"></div>
   </div>
 </script>
 <script id="template-icon">
-  <div class="icon" style="text-align: center; max-width: 70px;">
-    <img class="pin-icon" src="<: static_file('/static/image/temple-icon.png') :>">
-    <div style="font-size: 14px; text-align: center"><%= placeName %></div>
+  <div class="icon" style="text-align: center; margin-top:10px;">
+    <img class="pin-icon" src="<%= iconUrl %>">
+    <span><%= placeName %></span>
   </div>
 </script>
 

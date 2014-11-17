@@ -89,8 +89,8 @@ a:hover   {text-decoration:underline;color:#005D90;}  /*マウスの上にカーソルがあ
 
 
 /*左メニューのテキストリンク-----------------*/
-#menu a:link    {text-decoration:none;color:#444444;}  /*テキストリンクの色*/
-#menu a:visited {text-decoration:none;color:#444444;}  /*訪問済みのリンクの色*/ 
+/*#menu a:link    {text-decoration:none;color:#444444;}*/  /*テキストリンクの色*/
+/*#menu a:visited {text-decoration:none;color:#444444;}*/  /*訪問済みのリンクの色*/ 
 #menu a:active  {text-decoration:underline;color:#005D90;}   /*クリック時のリンクの色*/
 #menu a:hover   {text-decoration:underline;color:#005D90;}  /*マウスの上にカーソルがあるときのリンクの色*/
 
@@ -98,7 +98,7 @@ a:hover   {text-decoration:underline;color:#005D90;}  /*マウスの上にカーソルがあ
 
 
 #container{
-width:820px;
+width:950px;
 margin:0 auto;
 padding:0;
 text-align:left;
@@ -196,7 +196,7 @@ padding: 0;
 
 
 /*メニューのカテゴリ名部分-----------------*/
-.midashi{
+.midashi.active{
 background-color:#0381AB;     /*----背景色-----*/
 color:#ffffff;      /*----文字色-----*/
 font-weight:bold;     /*----太文字-----*/
@@ -204,6 +204,11 @@ font-size:14px;     /*----文字サイズ-----*/
 padding:6px 8px;
 }
 
+.midashi{
+font-weight:bold;     /*----太文字-----*/
+font-size:14px;     /*----文字サイズ-----*/
+padding:6px 8px;
+}
 
 
 /*各メニュー点線の下線つき-----------------*/

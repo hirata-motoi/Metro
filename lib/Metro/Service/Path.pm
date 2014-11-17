@@ -24,6 +24,7 @@ sub get {
     #     { places => $places, stations => $stations }
     # ]
     my $place_station_info = group_by_station($nearest_station_map);
+    infof('place_station_info : %s', Dump $place_station_info);
 
     # nearest_station_mapから2地点の組み合わせを全て取得し、その距離をRouteからselect
     my $conbinations = station_conbinations($nearest_station_map);
@@ -33,32 +34,69 @@ sub get {
     #   TODO スタート地点を入力
     # 経路の順番の組み合わせを全て出して、その中で最短経路を選ぶ
     my $place_orders = place_order($place_station_info);
+    infof("place_orders : %s", Dump $place_orders);
     my $shortest_route = shortest_route($place_orders, $route, $nearest_station_map);
+    infof('shortest_route : %s', Dump $shortest_route);
 
     # stationsを作る
+    my $i;
     my @stations = ();
     my $place_index = 0;
+    my %used_place_index = ();
+    my %walk_path_indexes = ();
     for my $r (@{$shortest_route->{route}}) {
+        my $is_walk_from_last_spot = undef;
         my $index = 0;
         my @route_stations = @{ decode_json($r->{route}) };
         my $station_info = get_station_info($self, \@route_stations);
 
+        # 目的地に到着した駅と次に乗る駅が異なる場合
+        if (
+            $i > 0 &&
+            $shortest_route->{route}->[$i - 1]  &&
+            $r->{station_from} != $shortest_route->{route}->[$i - 1]->{station_to}
+        ) {
+            $walk_path_indexes{scalar(@stations) - 1}++;
+            $is_walk_from_last_spot = 1;
+        }
+
+        $i++;
         if ($route_stations[0] != $r->{station_from}) {
             @route_stations = reverse @route_stations;
         }
+
+
         for my $station (@route_stations) {
+            if (@stations && $station == $stations[$#stations]->{id}) {
+                next;
+            }
+
             my %unit = (
                 id => $station,
                 name => $station_info->{$station}{title},
             );
 
-            if ($index == 0) {
-                $unit{place_index} = $place_index;
-                $place_index++;
+            if (!$is_walk_from_last_spot) {
+                if ($r->{station_from} && $r->{station_from} == $station) {
+                    if (!$used_place_index{$place_index}) {
+                        $unit{place_index} = $place_index;
+                        $used_place_index{$place_index}++;
+                        $place_index++;
+                    }
+                }
+                if ($r->{station_to} && $r->{station_to} == $station) {
+                    if (!$used_place_index{$place_index}) {
+                        $unit{place_index} = $place_index;
+                        $used_place_index{$place_index}++;
+                        $place_index++;
+                    }
+                }
             }
+            $is_walk_from_last_spot = undef;
 
             push @stations, \%unit;
         }
+        $index++;
     }
 
     # pathsを作る
@@ -68,12 +106,20 @@ sub get {
         last if ! $stations[$i + 1];
 
         my $next_station = $stations[$i + 1];
-        # DBから2地点間の路線と経由時間を引く(同じ路線のはずなので、路線はrailwayからひく でいいかな)
-        # 経由時間はrouteからひくでOK
-        push @paths, {
-            railway        => get_common_railway($self, $station->{id}, $next_station->{id}),
-            necessary_time => get_necessary_time($self, $station->{id}, $next_station->{id}),
-        };
+
+        if ($walk_path_indexes{$i}) {
+            push @paths, {
+                railway        => 'walk',
+                necessary_time => undef,
+            };
+        } else {
+            # DBから2地点間の路線と経由時間を引く(同じ路線のはずなので、路線はrailwayからひく でいいかな)
+            # 経由時間はrouteからひくでOK
+            push @paths, {
+                railway        => get_common_railway($self, $station->{id}, $next_station->{id}),
+                necessary_time => get_necessary_time($self, $station->{id}, $next_station->{id}),
+            };
+        }
 
         $i++;
     }
@@ -81,16 +127,17 @@ sub get {
     # placesを作る
     my $spots = $self->model('TouristSpot')->get($teng, $places);
     my @places_detail = ();
-    for my $spot_list (@$place_station_info) {
+    for my $place_station (@{$shortest_route->{order}}) {
         my @unit = ();
-        for my $spot (@{$spot_list->{places}}) {
+        for my $spot (@{$place_station->{places}}) {
             push @unit, {
                 %{$spots->{$spot}},
-                image => image_url($spot),
+                image => image_url($spots->{$spot}{category}),
             };
         }
         push @places_detail, \@unit;
     }
+    infof("places_detail: %s", Dump \@places_detail);
 
     # {
     #     places => 場所情報の配列,
@@ -140,7 +187,6 @@ sub place_order {
     my ($place_station_info) = @_;
 
     my $place_station = clone $place_station_info;
-    infof(Dump $place_station);
 
     # スタート地点は決めでindex 0
     my $start =  shift @$place_station;
@@ -149,7 +195,10 @@ sub place_order {
     for (@place_orders) {
         unshift @$_, $start;
     }
-    infof('place_orders : %s', Dump \@place_orders);
+
+    if (!@place_orders) {
+        unshift @place_orders, [$start];
+    }
     return \@place_orders;
 }
 
@@ -166,6 +215,15 @@ sub shortest_route {
     for my $order (@$place_orders) {
         my %unit = (order => $order);
         my $index = 0;
+
+        if (scalar @$order == 1) {
+            $unit{route} ||= [];
+            push @{$unit{route}}, {
+                station_from => $order->[0]{stations}[0],
+                station_to => undef,
+                route      => encode_json([ $order->[0]{stations}[0] ])
+            };
+        }
         for my $place (@$order) {
 
             last if ! $order->[$index + 1];
@@ -194,11 +252,9 @@ sub shortest_route {
 
             die("shortest_route not found") if !$shortest_route;
 
-            $unit{route}          ||= [];
+            $unit{route} ||= [];
             push @{$unit{route}}, $shortest_route;
             $unit{total_necessary_time} += $shortest_route->{necessary_time};
-
-            $index++;
         }
         push @all_route, \%unit;
     }
@@ -228,9 +284,16 @@ sub get_necessary_time {
 
 # そのうちクラスに切り出し
 sub image_url {
-    my ($id) = @_;
+    my ($category_id) = @_;
 
-    return sprintf('/img/place/%d', $id);
+    my %category_icon_map = (
+        1 => 'palece-icon.png',
+        2 => 'temple-icon.png',
+        3 => 'shopping-icon.png',
+        4 => 'tower-icon.png'
+    );
+
+    return sprintf('/static/image/place_category/%s', $category_icon_map{$category_id});
 }
 
 # 同一の最寄り駅を持つ場所をグルーピング
@@ -268,7 +331,7 @@ sub group_by_station {
         # placesに共通の最寄り駅を探す
         my %station_hash = ();
         for my $place (@$places) {
-            map { $station_hash{$place}++ } @{$nearest_station_map->{$place}};
+            map { $station_hash{$_}++ } @{$nearest_station_map->{$place}};
         }
         my @common_stations = grep { $station_hash{$_} == scalar @$places } keys %station_hash;
 

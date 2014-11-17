@@ -139,6 +139,7 @@
             placeIds.push( $(elem).attr("data-id") );
         });
 
+        $("#loading").show();
         $.ajax({
             url: "/paths",
             dataType: "json",
@@ -163,21 +164,24 @@
                     Fukutoshin: "/static/image/railway/F.jpg",
                     Hanzomon: "/static/image/railway/Z.jpg",
                     Namboku: "/static/image/railway/N.jpg",
+                    walk: "/static/image/railway/walk.png",
                 };
 
-                for (i = 0; i < stations.length; i++) {
-                    setupStationPlaceElem(container, stations[i], places[i]);
-                    if (paths[i]) {
-                        container.append( tmplArrows({
-                                "lineName": paths[i]["railway"],
-                                "requiredMinutes": paths[i]["necessary_time"]+" min",
-                                "iconUrl": iconUrls[ paths[i]["railway"] ]
-                        }) );
-                    }
-                }
+            for (i = 0; i < stations.length; i++) {
+                setupStationPlaceElem(container, stations[i], places);
+                if (paths[i]) {
 
+                    var requiredMinutes = (paths[i]["railway"] == "walk") ? "" : "(" + paths[i]["necessary_time"]+" min)";
+                    container.append( tmplArrows({
+                            "lineName": paths[i]["railway"],
+                            "requiredMinutes": requiredMinutes,
+                            "iconUrl": iconUrls[ paths[i]["railway"] ]
+                    }) );
+                }
+            }
         }).fail(function() {
-            window.alert("failed to load path data");
+        }).complete(function(){
+            $("#loading").hide();
         });
     }
 
@@ -188,14 +192,16 @@
             stationElem = tmplPoint({"pointName": station["name"]});
 
         container.append(stationElem);
-        if (station["place_index"] !== undefined) {
-            if (places) {
-                for (i = 0; i < places.length; i++) {
 
-                    var details = $(".detail");
+        if (station["place_index"] !== undefined) {
+            if (places[ station["place_index"] ]) {
+                for (i = 0; i < places[ station["place_index"] ].length; i++) {
+
+                    var details = $(container).find(".detail");
                     var elem = details[details.length - 1];
                     $(elem).append(tmplIcon({
-                        "placeName": places[i]["name_en"]
+                        "placeName": places[ station["place_index"] ][i]["name_en"],
+                        "iconUrl": places[ station["place_index"] ][i]["image"]
                     }));
                 }
             }
@@ -250,7 +256,7 @@
             var emailConfirmTextbox = $(this).parents(".email-form").find(".email-confirm-box")[0];
 
             if (!emailTextbox.value || !emailConfirmTextbox.value || emailTextbox.value !== emailConfirmTextbox.value) {
-                window.alert("emailアドレスを確認してください");
+                window.alert("Please confirm your email");
             }
 
             var canvas = $("canvas")[0];
@@ -269,7 +275,7 @@
             }).done(function(data, textStatus, jqXHR) {
                 sendMail(data.result["filepath"], emailTextbox.value);
             }).fail(function(){
-                window.alert("failed to upload");
+                //window.alert("failed to upload");
             });
         });
     }
@@ -284,9 +290,9 @@
             },
             "dataType": "json"
         }).done(function(data, textStatus, jqXHR) {
-            window.alert("Send mail succeeded");
+            window.alert("Succeeded to send mail");
         }).fail(function() {
-            window.alert("failed to send mail");
+            window.alert("Failed to send mail");
         });
     }
 
@@ -327,9 +333,16 @@
         });
     }
 
+    function setupGlobalTitle() {
+        $("#global-title").click(function() {
+            location.href = "/";
+        });
+    }
+
     setupSubmit();
     setupBackButton();
     setupTouristSpots();
     setupCaptureButton();
     setupEmailSend();
+    setupGlobalTitle();
 })();
