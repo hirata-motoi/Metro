@@ -12,7 +12,7 @@ use JSON::XS;
 use Clone qw/clone/;
 
 sub get {
-    my ($self, $places) = @_;
+    my ($self, $places, $start_spot_id) = @_;
 
     my $teng = $self->teng('METRO_R');
 
@@ -24,19 +24,14 @@ sub get {
     #     { places => $places, stations => $stations }
     # ]
     my $place_station_info = group_by_station($nearest_station_map);
-    infof('place_station_info : %s', Dump $place_station_info);
 
     # nearest_station_mapから2地点の組み合わせを全て取得し、その距離をRouteからselect
     my $conbinations = station_conbinations($nearest_station_map);
     my $route = $self->model('Route')->get($teng, $conbinations);
 
-    # 決めでplacesの最初のものをスタート地点とする
-    #   TODO スタート地点を入力
     # 経路の順番の組み合わせを全て出して、その中で最短経路を選ぶ
-    my $place_orders = place_order($place_station_info);
-    infof("place_orders : %s", Dump $place_orders);
+    my $place_orders = place_order($place_station_info, $start_spot_id);
     my $shortest_route = shortest_route($place_orders, $route, $nearest_station_map);
-    infof('shortest_route : %s', Dump $shortest_route);
 
     # stationsを作る
     my $i;
@@ -137,7 +132,6 @@ sub get {
         }
         push @places_detail, \@unit;
     }
-    infof("places_detail: %s", Dump \@places_detail);
 
     # {
     #     places => 場所情報の配列,
@@ -184,12 +178,20 @@ sub station_conbinations {
 }
 
 sub place_order {
-    my ($place_station_info) = @_;
+    my ($place_station_info, $start_spot_id) = @_;
 
     my $place_station = clone $place_station_info;
 
     # スタート地点は決めでindex 0
-    my $start =  shift @$place_station;
+    my $start;
+    my $i = 0;
+    for my $unit (@$place_station) {
+        if (grep { $_ == $start_spot_id } @{$unit->{places}}) {
+            $start = $unit;
+            splice @$place_station, $i, 1, ();
+        }
+        $i++;
+    }
 
     my @place_orders = permute(@$place_station);
     for (@place_orders) {

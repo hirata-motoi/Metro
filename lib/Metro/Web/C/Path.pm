@@ -13,9 +13,10 @@ sub get {
 	my ($self, $c) = @_;
 
     my @places = $c->req->param('p');
+    my $start_spot_id = $c->req->param('s');
 
     my $ret = eval {
-        Metro::Logic::Path->new->get(\@places);
+        Metro::Logic::Path->new->get(\@places, $start_spot_id);
     } || {};
 
 	$self->output_response_json($c, $ret, $@);

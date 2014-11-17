@@ -71,7 +71,13 @@
     }
 
     function toggle(that) {
-        var item = $(that).parents(".item")[0];
+        var tmplSelectedItem, item = $(that).parents(".item")[0];
+
+        if ($(".item.selected").length >= 7) {
+            window.alert("You can select up to 7 items.");
+            return;
+        }
+
         if ($(item).hasClass("selected")) {
             $(item).removeClass("selected");
 
@@ -81,11 +87,22 @@
                     window.metro.placeList[i]["selected"] = false;
                 }
             }
+
+            $(".selected-item-elem[data-id=" + $(item).attr("data-id") + "]").each(function(i, elem) {
+                $(elem).remove();
+            });
         } else {
             $(item).addClass("selected");
             for (var i = 0; i < window.metro.placeList.length; i++) {
                 if (window.metro.placeList[i]["id"] === $(item).attr("data-id")) {
                     window.metro.placeList[i]["selected"] = true;
+
+                    tmplSelectedItem = _.template( $("#template-selected-item").html() );
+                    $("#selected-item-list").append(tmplSelectedItem({
+                        placeId: window.metro.placeList[i]["id"],
+                        iconUrl: "",
+                        placeName: window.metro.placeList[i]["name_en"],
+                    }));
                 }
             }
         }
@@ -129,21 +146,31 @@
     }
 
     function showResult() {
-        var placeIds = new Array;
+        var i, startSpotId, placeIds = new Array;
+
+        for (i = 0; i < window.metro.placeList.length; i++) {
+            if (window.metro.placeList[i]["selected"]) {
+                placeIds.push( window.metro.placeList[i]["id"] );
+
+                if (window.metro.placeList[i]["startSpot"]) {
+                    startSpotId = window.metro.placeList[i]["id"]
+                }
+            }
+        }
+        if (!startSpotId) {
+            window.alert("Please choose start tourist spot");
+            return;
+        }
 
         $("#item-list").addClass("hidden");
         $("#result").removeClass("hidden");
         $("#box-pathway").empty();
 
-        $(".item.selected").each(function(i, elem) {
-            placeIds.push( $(elem).attr("data-id") );
-        });
-
         $("#loading").show();
         $.ajax({
             url: "/paths",
             dataType: "json",
-            data: {p: placeIds},
+            data: {p: placeIds, s: startSpotId},
             traditional: true
         }).done(function(data, textStatus, jqXHR) {
             var i, n,
@@ -264,6 +291,8 @@
             data = data.replace('data:image/png;base64,', '');
             var token = getXSRFToken();
 
+            $("#mail-loading").show();
+            $("#email-succeeded").hide();
             $.ajax({
                 "type": "POST",
                 "url": "/image/upload",
@@ -276,6 +305,8 @@
                 sendMail(data.result["filepath"], emailTextbox.value);
             }).fail(function(){
                 //window.alert("failed to upload");
+                $("#mail-loading").hide();
+            }).complete(function() {
             });
         });
     }
@@ -290,7 +321,8 @@
             },
             "dataType": "json"
         }).done(function(data, textStatus, jqXHR) {
-            window.alert("Succeeded to send mail");
+            $("#mail-loading").hide();
+            $("#email-succeeded").show();
         }).fail(function() {
             window.alert("Failed to send mail");
         });
@@ -339,10 +371,50 @@
         });
     }
 
+    function setupSelectedItemDetail() {
+        $(document).on("click", ".selected-item-content", function() {
+            var i, id = $(this).parents(".selected-item-elem").attr("data-id"),
+                 placeData;
+            for (i = 0; i < window.metro.placeList.length; i++) {
+               if (window.metro.placeList[i]["id"] == id) {
+                   placeData = window.metro.placeList[i];
+                   break;
+               }
+            }
+
+            $("#item-modal").find(".detail-image").attr("src", placeData["image"]);
+            $("#item-modal").find(".detail-text").html(placeData["detail"]);
+            $("#myModalLabel").html(placeData["name_en"]);
+            // modal表示
+            $("#item-modal").modal('show');
+        });
+    }
+
+    function setupStartFromHere() {
+        $(document).on("click", ".start-select-button", function() {
+            var i, id = $(this).parents(".selected-item-elem").attr("data-id");
+
+            for (i = 0; i < window.metro.placeList.length; i++) {
+               if (window.metro.placeList[i]["id"] == id) {
+                   window.metro.placeList[i]["startSpot"] = true;
+               } else {
+                   window.metro.placeList[i]["startSpot"] = false;
+               }
+            }
+
+            $(".selected-item-elem").each(function(i, elem) {
+                $(elem).removeClass("start-spot");
+            });
+            $(this).parents(".selected-item-elem").addClass("start-spot");
+        });
+    }
+
     setupSubmit();
     setupBackButton();
     setupTouristSpots();
     setupCaptureButton();
     setupEmailSend();
     setupGlobalTitle();
+    setupSelectedItemDetail();
+    setupStartFromHere();
 })();

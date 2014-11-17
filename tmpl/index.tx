@@ -89,14 +89,14 @@ body {
       </div>
     : }
     <div id="menu">
-      <div class="col-xs-3" style="margin-top: 20px;">
-        <ul class="nav nav-pills nav-stacked">
+      <div style="margin-top: 20px;">
+        <ul class="nav nav-pills">
           <li class="active midashi" style="padding:0px;"><a href="#menu-normal" data-toggle="tab" class="midashi-link">Home</a></li>
           <li class="midashi" style="padding:0px;"><a href="#menu-abstract" data-toggle="tab" class="midashi-link">What's Metro Browser</a></li>
         </ul>
       </div>
 
-      <div class="col-xs-9 tab-content">
+      <div class="tab-content">
         <div id="menu-normal" class="tab-pane active">
           : include menu::normal
         </div>
@@ -110,10 +110,6 @@ body {
     : }
     : else {
     : }
-  <script>
-    //$("#menu").tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
-    //$("#menu li").removeClass("ui-corner-top").addClass("ui-corner-left");
-  </script>
   <script type="text/javascript" src="<: static_file('/static/salvattore/js/salvattore.js') :>"></script>
   <script type="text/javascript" src="<: static_file('/static/js/html2canvas.js') :>"></script>
   <script type="text/javascript" charset="UTF-8" src="<: static_file('/static/js/metro.js') :>"></script>
