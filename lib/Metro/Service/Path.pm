@@ -97,7 +97,7 @@ sub get {
 
     # pathsを作る
     my @paths = ();
-    my $i = 0;
+    $i = 0;
     for my $station (@stations) {
         last if ! $stations[$i + 1];
 

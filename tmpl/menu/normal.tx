@@ -108,6 +108,9 @@
     margin-top: 4px;
     border-bottom: none;
   }
+  .more-information-link {
+    display: none;
+  }
 </style>
 <script type="text/javascript">
 </script>
@@ -207,7 +210,8 @@
       </div>
       <div class="modal-body" style="text-align:left;">
         <img class="detail-image" src="" style="float:left; max-width:60%; margin-right:10px;">
-        <span class="detail-text" style="font-size:16px;"></span>
+        <span class="detail-text" style="font-size:16px;"></span> <br>
+        <a class="more-information-link" href="" target="_blank">more information</a>
         <div class="clear"></div>
       </div>
     </div>

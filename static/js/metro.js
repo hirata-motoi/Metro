@@ -123,6 +123,17 @@
 
                     $(elem2).find(".detail-image").attr("src", placeData["image"]);
                     $(elem2).find(".detail-text").html(placeData["detail"]);
+                    if (placeData["more_information_url"]) {
+                        $(elem2).find(".more-information-link").each(function(i, e) {
+                            $(e).attr("href", placeData["more_information_url"]);
+                            $(e).show();
+                        });
+                    } else {
+                        $(elem2).find(".more-information-link").each(function(i, e) {
+                            $(e).attr("href", "");
+                            $(e).hide();
+                        });
+                    }
                     $("#myModalLabel").html(placeData["name_en"]);
                     // modal表示
                     $("#item-modal").modal('show');

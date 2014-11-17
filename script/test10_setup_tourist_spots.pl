@@ -46,6 +46,7 @@ while (<$fh>) {
         detail   => $elems[5],
         category => get_category($elems[4]),
         extension => $extension,
+        more_information_url => $elems[6],
     };
 }
 

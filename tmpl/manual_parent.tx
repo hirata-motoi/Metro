@@ -91,7 +91,7 @@ body {
     <div id="menu">
       <div style="margin-top: 20px;">
         <ul class="nav nav-pills">
-          <li class="midashi" style="padding:0px;"><a href="#menu-normal" data-toggle="tab" class="midashi-link">Home</a></li>
+          <!--<li class="midashi" style="padding:0px;"><a href="#menu-normal" data-toggle="tab" class="midashi-link">Home</a></li>-->
           <li class="midashi" style="padding:0px;"><a href="#menu-abstract" data-toggle="tab" class="midashi-link">What's Metro Browser</a></li>
           <li class="active midashi" style="padding:0px;"><a href="#menu-manual" data-toggle="tab" class="midashi-link">How to use</a></li>
         </ul>
