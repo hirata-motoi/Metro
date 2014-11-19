@@ -2,6 +2,31 @@
 </style>
 <script type="text/javascript">
 </script>
-<div>
-  easy include
+<div style="text-align: left; margin-top: 20px;">
+  <h3 style="font-size: 20px;">What is Metro Browser?</h3>
+  <div class="text" style="font-size: 14px;">
+    “Metro Browser”  is a free service to search for the Tokyo Metro wayside tourist attractions.<br>
+    Up to now, have you tried to find the location where you want to pay a visit and then to searche the way to get there, while looking at a guide book?<br>
+    If you use the Metro Browser, you can deal with these two tasks at the same time very easily.<br>
+    In addition, you can print out the recommended route by Metro Browser or send it to your mobile phone.<br>
+    A nice Tokyo tourism by using Metro Browser!
+  </div>
+
+  <h3 style="font-size: 20px;">Our service function</h3>
+
+  <h4 style="font-size: 14px;"><u>Selection of tourist attractions</u></h4>
+  <div class="text">
+    You can choose your curious tourist attractions from the list including famous Tokyo tourist spots.
+  </div>
+
+  <h4 style="font-size: 14px;"><u>Search for route</u></h4>
+  <div class="text">
+    After you select the tourist attractions, you will be presented with the route when using the Tokyo Metro.
+  </div>
+
+  <h4 style="font-size: 14px;"><u>Output of the recommended route</u></h4>
+  <div class="text">
+    You can print out the recommended route, or send it to your mobile phone.
+  </div>
+
 </div>

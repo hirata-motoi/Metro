@@ -6,14 +6,8 @@
     margin: 4px;
     background-color: #FFFFFF
   }
-  #btn-style1 {
-    background-color: #7FFFD4;
-    width: 50%;
-    margin-left: auto;
-    margin-right: auto;
-  }
   #btn-style2 {
-    background-color: #7FFFD4;
+    background-color: #007AB8;
     width: 50%;
     margin-left: auto;
     margin-right: auto;
@@ -22,7 +16,7 @@
     display: none;
   }
   #result {
-    width: 96%;
+    width: 80%;
     margin-left: auto;
     margin-right: auto;
     text-align: left;
@@ -30,24 +24,27 @@
   #box-pathway {
     width: 100%;
     float: left;
+    margin-top: 20px;
+    background-color: white;
   }
   .station {
     width: 25%;
     float: left;
   }
   .detail {
-    width: 75%;
+    width: 60%;
     min-height: 40px;
     float: right;
   }
   .selected {
-    background-color: red;
+    background-color: #F08080;
   }
-  .select-button {
+  .detail-button {
     cursor: pointer;
   }
   .image {
     cursor: pointer;
+    text-align: center;
   }
   /* salvattore */
   .timeline[data-columns]::before {
@@ -66,6 +63,7 @@
     padding: 0px 0px 0px 0px;
     border: none;
     border-radius: 4px;
+    height: 120px;
   }
   .img-icon-small {
     width: 10%;
@@ -86,52 +84,149 @@
   .icon {
     display: inline-block;
   }
+  .clear {
+    clear: both;
+    height: 15px;
+  }
+  #loading {
+    display: none;
+    width: 100%;
+    margin-top: 100px;
+    text-align: center;
+  }
+  .start-spot {
+    background-color: #00ff7f;
+  }
+  .start-spot .start-select-button {
+    color: lightgray;
+  }
+  .selected-item-list-elem {
+    margin-top: 4px;
+    border-bottom:solid 1px lightgray;
+  }
+  .selected-item-list-elem:last-child {
+    margin-top: 4px;
+    border-bottom: none;
+  }
+  .more-information-link {
+    display: none;
+  }
 </style>
 <script type="text/javascript">
 </script>
-<div>
+<div style="margin-top: 20px;">
 
   <div id="item-list">
-    <button type="button" id="btn-style1" class="btn btn-primary">Submit</button>
-    <div class="timeline row" data-columns style="content: '4 .column.size-1of4';"></div>
-    <button type="button" id="btn-style2" class="btn btn-primary">Submit</button>
+    <div class="col-xs-9">
+      <div class="btn-group" style="margin-left: 68%; margin-bottom: 10px;">
+        <button type="button" class="btn" style="width: 165px; text-align: left;"><span id="visibleValue">All</span></button>
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+        <ul class="dropdown-menu" role="menu" hiddenTag="#hiddenValue" visibleTag="#visibleValue">
+          <li><a href="javascript:void(0)" value="All">All</a></li>
+          <li><a href="javascript:void(0)" value="Garden/Park/Museum">Garden/Park/Museum</a></li>
+          <li><a href="javascript:void(0)" value="Temple/Shrine">Temple/Shrine</a></li>
+          <li><a href="javascript:void(0)" value="City/Shopping">City/Shopping</a></li>
+          <li><a href="javascript:void(0)" value="Tower">Tower</a></li>
+          <li><a href="javascript:void(0)" value="Others">Others</a></li>
+        </ul>
+        <input type="hidden" id="hiddenValue" value="">
+  
+        <a href="#" id="reset-button" style="position: absolute; bottom: 0px; margin-left: 8px;">reset</a>
+      </div>
+      <div class="timeline row" data-columns style="overflow: scroll; height: 600px;"></div>
+    </div>
+    <div class="col-xs-3" id="selected-item-box">
+      <div>
+        <h3>Selected Spots</h3>
+        <div>
+          <ul id="selected-item-list" style="list-style-type:none;">
+          </ul>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 10px;">
+        <button type="button" id="btn-style2" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
   </div>
   <div id="result" class="hidden">
-    <div>
-      <button type="button" class="btn btn-success back-button">back</button>
+    <div style="text-align:center;">
+      <div style="display:inline-block; width:15%;">
+        <button type="button" class="btn btn-success back-button" style="display:inline-block; width: 100%;">back</button>
+      </div>
+      <div style="display:inline-block; width:80%; text-align:right;">
+        <button type="button" class="btn btn-success capture-button" style="display:inline-block; width: 20%;">capture</button>
+        <button id="print-trigger" type="button" class="btn btn-success" style="display:inline-block; width: 20%;">print</button>
+      </div>
     </div>
-    <div id="box-pathway"></div>
+    <div id="box-pathway">
+    </div>
+    <div id="loading"><img src="/static/image/ajax-loader.gif"></div>
   </div>
 
+</div>
+
+<div id="capture-modal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width:800px;">
+    <div class="modal-content" style="width:800px;">
+      <div class="modal-header">
+        <span class="close" data-dismiss="modal" aria-hidden="true">×</span>
+        <h3 id="captureModalLabel">send capture</h3>
+      </div>
+      <div class="modal-body">
+        <div class="email-form" style="text-align:center;">
+          <p style="font-size:16px; width:70%; margin-left:15%; margin-bottom:20px;">You can send the capture by email. <br>Please enter your email address to send capture.</p>
+          <form>
+            <ul style="list-style-type : none;">
+              <li style="width: 90%; display:inline-block;">
+                <div style="display:inline-block; width:100px; text-align:right; margin-right:20px;">email</div>
+                <input type="text" name="email" style="width:60%; display:inline-block;" class="email-box">
+              </li>
+              <li style="width: 90%; display:inline-block; margin-top:10px; margin-bottom:10px;">
+                <div style="display:inline-block; width:100px; text-align:right; margin-right:20px;">email(confirm)</div>
+                <input type="text" name="email-confirm" style="width:60%; display:inline-block;" class="email-confirm-box">
+              </li>
+            </ul>
+          </form>
+          <button id="email-send" type="button" class="btn btn-success">Send email</button>
+          <p id="email-succeeded" style="display:none; font-size:25px; color:#449d44; text-align:center; margin-top:15px;">Succeeded to send email</p>
+
+          <div id="mail-loading" style="position:absolute; margin-top:0px; margin-left:350px; display:none;"><img src="/static/image/ajax-loader.gif"></div>
+        </div>
+        <div class="capture" style="margin-top:70px;"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div id="item-modal" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel">モーダルボックス</h3>
+        <span class="close" data-dismiss="modal" aria-hidden="true">×</span>
+        <h3 id="myModalLabel"></h3>
       </div>
-      <div class="modal-body">
-        <img class="detail-image" src="" style="max-width: 60%;">
-      </div>
-      <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">閉じる</button>
-        <button class="btn btn-primary">完了</button>
+      <div class="modal-body" style="text-align:left;">
+        <img class="detail-image" src="" style="float:left; max-width:60%; margin-right:10px;">
+        <span class="detail-text" style="font-size:16px;"></span> <br>
+        <a class="more-information-link" href="" target="_blank">more information</a>
+        <div class="clear"></div>
       </div>
     </div>
   </div>
 </div>
 
 <script id="template-item">
-  <div class="item">
+  <div class="item" data-id="<%= id %>" data-category="<%= category %>">
     <div class="image">
       <img src="<%= image_url %>" class="img-thumbnail">
     </div>
     </a>
-    <div>
-      <span>どこそこ</span>
-      <span class="select-button" style="float: right;">GO</span>
+    <div style="font-size:14px; text-align:left;">
+      <span class="place-name" style="max-width:80%; display:inline-block;"><%= name %></span>
+      <span class="detail-button" style="float: right; margin-right:5px;"> > </span>
     </div>
   </div>
 </script>
@@ -139,21 +234,39 @@
   <div class="checkmark">&#x2713;</div>
 </script>
 <script id="template-arrows">
-  <div>
-    <img src="<: static_file('/static/image/arrows-green.png') :>">
-    <span style="font-size: 12px;"><%= lineName %>(<%= requiredMinutes %>)</span>
+  <div style="margin-bottom: 20px;">
+    <div style="display:inline-block; margin-left:45%;">
+      <img src="<: static_file('/static/image/arrows-green.png') :>">
+    </div>
+    <div style="display:inline-block;">
+      <img src="<%= iconUrl %>" style="width: 30px; height: 30px;">
+      <span style="font-size: 14px;"><%= lineName %><%= requiredMinutes %></span>
+    </div>
   </div>
 </script>
 <script id="template-point">
-  <div style="width: 100%; min-height: 40px;">
-    <div class="station"><%= pointName %></div>
-    <div class="detail""></div>
+  <div style="width: 100%; min-height: 90px; margin-bottom: 20px; background-color:darkgray;">
+    <div class="station" style="font-size:16px; margin-top:35px; margin-left:10px; width:35%; text-align:center;"><%= pointName %></div>
+    <div class="detail"></div>
   </div>
 </script>
 <script id="template-icon">
-  <div class="icon" style="text-align: center;">
-    <img class="pin-icon" src="<: static_file('/static/image/temple-icon.png') :>">
-    <div style="font-size: 16px; text-align: center"><%= placeName %></div>
+  <div class="icon" style="text-align: center; margin-top:10px; max-width:180px;">
+    <img class="pin-icon" src="<%= iconUrl %>"><br>
+    <span style="font-weight:bold; font-size:13px;"><%= placeName %></span>
   </div>
+</script>
+<script id="template-selected-item">
+  <li class="selected-item-list-elem">
+    <div class="selected-item-elem" style="text-align:left; cursor:pointer;" data-id="<%= placeId %>">
+      <div class="selected-item-content" style="display:inline-block;">
+        <img class="pin-icon" src="<%= iconUrl %>">
+        <span style="font-size: 14px;"><%= placeName %></span>
+      </div>
+      <div style="text-align:right;">
+        <a href="#" class="start-select-button">start from here</span>
+      </div>
+    </div>
+  <li>
 </script>
 

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title><: $title :></title>
+    <meta http-equiv="Content-Style-Type" content="text/css">
+    <meta http-equiv="Content-Script-Type" content="text/javascript">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <!--<link href="<: uri_for('/static/bootstrap/css/bootstrap.css') :>" rel="stylesheet" type="text/css">-->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <!--<link href="<: static_file('/static/css/main.css') :>" rel="stylesheet" type="text/css" media="screen">-->
+    <!--<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css" />-->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.2/themes/black-tie/jquery-ui.css">
+    <link rel="stylesheet" href="<: uri_for('/static/css/style.css') :>">
+
+    : block head -> {}
+
+    <script src="<: static_file('/static/jquery/js/jquery.min.js') :>"></script>
+    <!--<script src="<: static_file('/static/bootstrap/js/bootstrap.js') :>"></script>-->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="<: static_file('/static/underscore/js/underscore-min.js') :>"></script>
+    <!--<script src="https://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>-->
+    <!--<script src="<: static_file('/static/js/main.js') :>"></script>-->
+    <script src="https://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    : block javascript -> {}
+
+<style>
+<!--
+.ui-tabs-vertical {
+    width: 55em;
+}
+.ui-tabs-vertical .ui-tabs-nav {
+    padding: .2em .1em .2em .2em;
+    float: left; width: 12em;
+}
+.ui-tabs-vertical .ui-tabs-nav li {
+    clear: left; width: 100%;
+    border-bottom-width: 1px !important;
+    border-right-width: 0 !important;
+    margin: 0 -1px 0.2em 0;
+}
+.ui-tabs-vertical .ui-tabs-nav li a {
+    display:block;
+    width: 10em;
+}
+.ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active {
+    padding-bottom: 0;
+    padding-right: .1em;
+    border-right-width: 1px;
+    border-right-width: 1px;
+}
+.ui-tabs-vertical .ui-tabs-panel {
+    padding: 1em;
+    float: left;
+    width: 700px;
+}
+.ui-tabs .ui-tabs-nav li.ui-tabs-active {
+    margin-bottom: 0.2em;
+}
+#menu {
+  width: 100%;
+}
+body {
+  width: 100%;
+  background-color: #F5F5F5;
+}
+.global-header {
+  background-color: #004B7A;
+  width: 100%;
+  height: 70px;
+}
+#menu .active.midashi a.midashi-link.visited {
+  color: white;
+}
+-->
+</style>
+
+  </head>
+
+  <body style="margin-top: 0px; margin-bottom: 0px;">
+
+    <div id="container">
+    : if $no_header {
+    : }
+    : else {
+      <div class="global-header" style="margin-top: 0px;">
+        <div id="global-title" style="position:absolute; margin-top: 20px; margin-left: 20px; font-size: 36px; color: white; text-shadow:none; text-align: left; cursor:pointer;">Metro Browser</div>
+      </div>
+    : }
+    <div id="menu">
+      <div style="margin-top: 20px;">
+        <ul class="nav nav-pills">
+          <!--<li class="midashi" style="padding:0px;"><a href="#menu-normal" data-toggle="tab" class="midashi-link">Home</a></li>-->
+          <li class="midashi" style="padding:0px;"><a href="#menu-abstract" data-toggle="tab" class="midashi-link">What's Metro Browser</a></li>
+          <li class="active midashi" style="padding:0px;"><a href="#menu-manual" data-toggle="tab" class="midashi-link">How to use</a></li>
+        </ul>
+      </div>
+
+      <div class="tab-content">
+        <div id="menu-normal" class="tab-pane">
+          : include menu::normal
+        </div>
+        <div id="menu-abstract" class="tab-pane">
+          : include menu::easy
+        </div>
+        <div id="menu-manual" class="tab-pane active">
+          : include menu::manual
+        </div>
+      </div>
+    </div>
+
+    : if $no_footer {
+    : }
+    : else {
+    : }
+  <script type="text/javascript" src="<: static_file('/static/salvattore/js/salvattore.js') :>"></script>
+  <script type="text/javascript" src="<: static_file('/static/js/html2canvas.js') :>"></script>
+  <script type="text/javascript" charset="UTF-8" src="<: static_file('/static/js/metro.js') :>"></script>
+  <script type="text/javascript" src="<: static_file('/static/bootstrap/js/modal.js') :>"</script>
+  <script type="text/javascript" src="<: static_file('/static/bootstrap/js/transition.js') :>"</script>
+
+</div> <!-- container -->
+
+  </body>
+
+</html>
