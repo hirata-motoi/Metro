@@ -2,7 +2,7 @@
 exec 2>&1
 
 PERL=/home/metro/perl5/perlbrew/perls/perl-Metro-5.16.3/bin/perl
-DAEMON=/home/metro/Metro/script/metro-server5002
+DAEMON=/home/metro/Metro/script/metro-server
 
 exec \
   envdir ./env \
